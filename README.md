@@ -70,7 +70,7 @@ CREATE TABLE Profiles (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
-3.Get you credentials
+3.Get your credentials
 
 ### 4. Configure Environment Variables 
 
