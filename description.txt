@@ -1,0 +1,106 @@
+EXPENSE TRACKER
+
+A full-stack Expense Tracker using Flask, Supabase, and Bootstrap, implementing user authentication, CRUD operations for income and expenses, and an interactive dashboard with charts for financial summaries.
+
+-- user authentication
+-- add expenses/amount
+-- list of transactions
+-- edit/delete transactions
+
+Tables
+1. Profiles
+	- id : unique identification
+	- username : name of the user
+	- created_at : when user joined
+2. Transactions
+	- id : transaction id
+	- user_id : link the transaction to a specific user
+	- category : type of expense(food,travel,savings...)
+	- type : expense/income for balance calculations
+	- date : date of transaction
+	- description(optional)
+	- created_at : when transaction is added
+3. Budget
+	- id : budget id
+	- user_id : link budget to a specific user
+	- budget : store monthly limit, compare against expenses...
+	- created_at : when budget was set
+
+
+Expense Tracker – Full Stack Project Plan
+1. Features (MVP)
+
+User Authentication (Signup, Login, Logout).
+
+Add expenses/income (amount, category, date, description).
+
+View list of transactions.
+
+Edit/Delete transactions.
+
+2. Advanced Features (for extra resume boost)
+
+Dashboard with charts (monthly spending, category breakdown).
+
+Export data as CSV/PDF.
+
+Monthly budget limit → alert when exceeded.
+
+3. Tech Stack
+
+Backend: Flask (simple) or Django (more features).
+👉 I recommend Flask + SQLite (easy for beginners).
+
+Frontend: HTML + CSS + Bootstrap (for responsive UI).
+
+Database: SQLite (easy setup, later can switch to MySQL).
+
+Charts: Chart.js (interactive graphs).
+
+4. Database Design
+
+Users Table
+
+id (Primary Key)
+
+username
+
+email
+
+password (hashed)
+
+Transactions Table
+
+id (Primary Key)
+
+user_id (Foreign Key → Users.id)
+
+amount
+
+category (Food, Travel, Bills, etc.)
+
+type (Expense/Income)
+
+date
+
+description
+
+5. Development Steps
+
+Project Setup: Create Flask app, configure SQLite.
+
+User Auth: Signup, login, logout (password hashing).
+
+Transaction CRUD: Add, edit, delete, view.
+
+Transaction List Page: Show in table with filters (date, category).
+
+Dashboard: Show monthly totals + charts.
+
+Styling: Use Bootstrap for clean UI.
+
+Extras (optional): Export CSV/PDF, budget alerts.
+
+6. Resume Description (Sample)
+
+Expense Tracker Web App – Developed a full-stack Flask application for personal finance management. Implemented secure user authentication, CRUD operations for income and expenses, and interactive dashboards with Chart.js. Used SQLite for data persistence and Bootstrap for responsive UI design.
