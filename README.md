@@ -44,14 +44,14 @@ operations
 
 ### 1. Clone or Download the Project
 
-# Option 1: Clone with git
+### Option 1: Clone with git
 git clone <repository-url> 
 
-# Option 2: Download and extract the ZIP file
+### Option 2: Download and extract the ZIP file
 
 ### 2. Install Dependencies
 
-# Install all required Python packages
+### Install all required Python packages
 pip install -r requirements.txt
 
 ### 3. Set up Supabase Database
