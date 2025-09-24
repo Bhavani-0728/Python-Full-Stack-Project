@@ -126,5 +126,5 @@ The API will be available at `http://localhost:8080`
 ## Support 
 
 If you encounter any issues or have questions:
-    - Phone Number : +91 9063197036
-    - Email : bhavanibhavya77@gmail.com
+    Phone Number : +91 90631997036
+    Email : bhavanibhavya77@gmail.com
