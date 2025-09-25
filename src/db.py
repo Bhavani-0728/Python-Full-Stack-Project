@@ -3,100 +3,100 @@ from datetime import datetime
 from supabase import create_client
 from dotenv import load_dotenv
 
-#load environment variables
+# Load environment variables
 load_dotenv()
-url=os.getenv("SUPABASE_URL")
-key=os.getenv("SUPABASE_KEY")
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_KEY")
 
-supabase=create_client(url,key)
+supabase = create_client(url, key)
 
 # =================
 # PROFILES TABLE 
 # =================
 
-
-#Create Profile
+# Create Profile
 def create_profile(username):
-    return supabase.table("Profiles").insert({
+    return supabase.table("profiles").insert({
         "username": username,
-        "created_at": datetime.isoformat()
+        "created_at": datetime.utcnow().isoformat()
     }).execute()
 
-#Get All Profiles
+# Get All Profiles
 def get_all_profiles():
-    return supabase.table("Profiles").select("*").order("created_at").execute()
+    return supabase.table("profiles").select("*").order("created_at").execute()
 
-#Get a particular profile
+# Get a particular profile
 def get_profile(profile_id):
-    return supabase.table("Profiles").select("*").eq("id", profile_id).single().execute()
+    return supabase.table("profiles").select("*").eq("id", profile_id).single().execute()
 
-#Update profile
+# Update profile
 def update_profile(profile_id, updates: dict):
-    return supabase.table("Profiles").update(updates).eq("id", profile_id).execute()
+    # Better: don't overwrite created_at on update
+    updates["updated_at"] = datetime.utcnow().isoformat()
+    return supabase.table("profiles").update(updates).eq("id", profile_id).execute()
 
-#Delete profile
+# Delete profile
 def delete_profile(profile_id):
-    return supabase.table("Profiles").delete().eq("id", profile_id).execute() 
+    return supabase.table("profiles").delete().eq("id", profile_id).execute() 
 
 
 # =====================
 # TRANSACTIONS TABLE 
 # =====================
 
-
-#Create transaction
-def create_transaction(user_id, category, type, date, amount, description=None):
-    return supabase.table("Transactions").insert({
+# Create transaction
+def create_transaction(user_id, category, txn_type, date, amount, description=None):
+    return supabase.table("transactions").insert({
         "user_id": user_id,
         "category": category,
-        "type": type,
+        "type": txn_type,  # ✅ safe name
         "date": date,
         "amount": amount,
         "description": description,
         "created_at": datetime.utcnow().isoformat()
     }).execute()
 
-#Get transaction
+# Get transactions for a user
 def get_transactions(user_id):
-    return supabase.table("Transactions").select("*").eq("user_id", user_id).order("date").execute()
+    return supabase.table("transactions").select("*").eq("user_id", user_id).order("date").execute()
 
-#Upadate transaction
+# Update transaction
 def update_transaction(transaction_id, updates: dict):
-    updates["created_at"] = datetime.isoformat()
-    return supabase.table("Transactions").update(updates).eq("id", transaction_id).execute()
+    updates["updated_at"] = datetime.utcnow().isoformat()
+    return supabase.table("transactions").update(updates).eq("id", transaction_id).execute()
 
-#Delete transaction
+# Delete transaction
 def delete_transaction(transaction_id):
-    return supabase.table("Transactions").delete().eq("id", transaction_id).execute()
+    return supabase.table("transactions").delete().eq("id", transaction_id).execute()
+
 
 # ====================
-# BUDGET TABLE CRUD
+# BUDGETS TABLE CRUD
 # ====================
 
-
-#Create budget
+# Create budget
 def create_budget(user_id, budget):
-    return supabase.table("Budget").insert({
+    return supabase.table("budget").insert({   
         "user_id": user_id,
         "budget": budget,
-        "created_at": datetime.isoformat()
+        "created_at": datetime.utcnow().isoformat()
     }).execute()
 
-#Get budget
+# Get budget
 def get_budget(user_id):
-    return supabase.table("Budget").select("*").eq("user_id", user_id).order("created_at").limit(1).execute()
+    return supabase.table("budget").select("*").eq("user_id", user_id).order("created_at").limit(1).execute()
 
-#Update budget
+# Update budget
 def update_budget(budget_id, new_budget):
-    return supabase.table("Budget").update({
+    return supabase.table("budget").update({
         "budget": new_budget,
-        "created_at": datetime.isoformat()
+        "updated_at": datetime.utcnow().isoformat()
     }).eq("id", budget_id).execute()
 
-#Delete budget
+# Delete budget
 def delete_budget(budget_id):
-    return supabase.table("Budget").delete().eq("id", budget_id).execute()
+    return supabase.table("budget").delete().eq("id", budget_id).execute()
 
-#Get all budgets
+# Get all budgets
 def get_all_budgets():
-    return supabase.table("Budget").select("*").order("created_at").execute()
+    return supabase.table("budget").select("*").order("created_at").execute()

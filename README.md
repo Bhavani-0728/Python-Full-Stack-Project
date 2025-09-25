@@ -1,6 +1,6 @@
 # 💰 Full-Stack Expense Tracker
 
-A user-friendly full-stack web application to manage personal finances. Users can track their income and expenses, categorize transactions, and visualize spending trends. This project demonstrates a complete full-stack application using Python, Flask, FastAPI, Supabase, and Bootstrap/Streamlit.
+A user-friendly full-stack web application to manage personal finances. Users can track income and expenses, categorize transactions, and visualize spending trends using charts. This project demonstrates a complete full-stack application using Python, FastAPI, Supabase, and Streamlit.
 
 ## 🌟 Features
 
@@ -70,6 +70,27 @@ CREATE TABLE Profiles (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
+``` sql
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES profiles(id),
+    category TEXT,
+    type TEXT, 
+    date DATE,
+    amount FLOAT,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+``` sql
+CREATE TABLE budget (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES profiles(id),
+    budget FLOAT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
 3.Get your credentials
 
 ### 4. Configure Environment Variables 
@@ -82,32 +103,37 @@ SUPABASE_KEY=your_anon_key_here
 
 ### 5. Run the Application
 
-### Streamlit Frontend
-streamlit run frontend/app.py
-
-The app will open in your browser at `http://localhost:8080`
-
 ## FastAPI Backend
 
 cd api
-python main.py
+uvicorn main:app --reload --port 8000
 
-The API will be available at `http://localhost:8080`
+The API will be available at `http://localhost:8000`
+
+### Streamlit Frontend
+streamlit run frontend/app.py
+
+The app will open in your browser at `http://localhost:8501`
 
 ## How to Use
 
-1. Sign up / Log in using the authentication system.
-2. Add a transaction → Choose category, type (Expense/Income), amount, and date.
-3. View all transactions in a sortable/filterable table.
-4. Check dashboard → Get monthly spending summaries and category charts.
-5. Set a monthly budget → Track limits and get alerts when exceeded.
-6. Export data as CSV or PDF for reports (if enabled).
+1. Add a profile.
 
-## Technical Details
+2. Add transactions (Income or Expense) with category, date, amount, and description.
+
+3. View all transactions in a sortable/filterable table.
+
+4. Set a monthly budget.
+
+5. Open Dashboard → View monthly spending trends and category-wise charts.
+
+6. Export data as CSV/PDF (if implemented).
+
+## 🛠Technical Details
 
 ### Technologies Used
 
-- **Frontend**: Streamlit (Python web framework)
+- **Frontend**: Streamlit (Python web framework), Plotly (Visualize charts)
 - **Backend**: FastAPI (Python REST API framework)
 - **Database**: Supabase (PostgreSQL-based backend-as-a-service)
 - **Language**: Python 3.8+
@@ -118,7 +144,7 @@ The API will be available at `http://localhost:8080`
 
 2. **`src/logic.py`**: Business logic - Task validation and processing
 
-## Troubleshooting
+## ⚠️Troubleshooting
 
 ## Common Issues
 
@@ -135,9 +161,13 @@ The API will be available at `http://localhost:8080`
 4.  **Streamlit not launching in browser**
     - Try http://localhost:8501 manually.
     - Check if another process is already using that port.
+5. **Supabase Table Not Found**
+    - Ensure table names are lowercase (profiles, transactions, budget).
+6.  **JSONDecodeError in Streamlit**
+    - Happens when the API returns invalid JSON. Ensure backend is running and endpoints match frontend requests.
 
 
-## Future Enhacements
+## 🚀Future Enhacements
 
 💳 Multi-Currency Support: Track expenses in different currencies with conversion rates.
 
@@ -151,7 +181,7 @@ The API will be available at `http://localhost:8080`
 
 🔔 Notifications: Email/SMS alerts when nearing budget limits.
 
-## Support 
+## 📞Support 
 
 If you encounter any issues or have questions:
     Phone Number : +91 90631997036
