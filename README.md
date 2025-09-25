@@ -1,6 +1,6 @@
 # 💰 Full-Stack Expense Tracker
 
-A user-friendly full-stack web application to manage personal finances. Users can track their income and expenses, categorize transactions, and visualize spending trends. This project demonstrates a complete full-stack application using Python, Flask, Supabase, and Bootstrap.
+A user-friendly full-stack web application to manage personal finances. Users can track their income and expenses, categorize transactions, and visualize spending trends. This project demonstrates a complete full-stack application using Python, Flask, FastAPI, Supabase, and Bootstrap/Streamlit.
 
 ## 🌟 Features
 
@@ -96,6 +96,13 @@ The API will be available at `http://localhost:8080`
 
 ## How to Use
 
+1. Sign up / Log in using the authentication system.
+2. Add a transaction → Choose category, type (Expense/Income), amount, and date.
+3. View all transactions in a sortable/filterable table.
+4. Check dashboard → Get monthly spending summaries and category charts.
+5. Set a monthly budget → Track limits and get alerts when exceeded.
+6. Export data as CSV or PDF for reports (if enabled).
+
 ## Technical Details
 
 ### Technologies Used
@@ -119,9 +126,30 @@ The API will be available at `http://localhost:8080`
 1. **"Module not found" error**:
     - Make sure you've installed all dependencies: `pip install -r requirements.txt`
     - Check that you're running commands from the correct directory
+2. **Environment variable errors**
+    - Confirm .env file exists in the project root.
+    - Check variables match your Supabase project credentials.
+3.  **Supabase connection errors**
+    - Ensure your Supabase project is running and credentials are correct.
+    - If on free tier, wait if API requests are rate-limited.
+4.  **Streamlit not launching in browser**
+    - Try http://localhost:8501 manually.
+    - Check if another process is already using that port.
 
 
 ## Future Enhacements
+
+💳 Multi-Currency Support: Track expenses in different currencies with conversion rates.
+
+📅 Recurring Transactions: Auto-add monthly/weekly recurring expenses.
+
+📥 Import Bank Statements: Upload CSV from bank for automatic parsing.
+
+📱 Mobile App: Deploy as PWA (Progressive Web App).
+
+🤖 AI Insights: Suggest budget adjustments or detect unusual spending patterns.
+
+🔔 Notifications: Email/SMS alerts when nearing budget limits.
 
 ## Support 
 
