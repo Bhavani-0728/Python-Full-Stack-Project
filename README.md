@@ -69,7 +69,7 @@ CREATE TABLE Profiles (
     username TEXT NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     email TEXT UNIQUE,
-    password_hash TEXT;
+    password TEXT;
 );
 ```
 ``` sql
