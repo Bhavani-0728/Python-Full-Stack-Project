@@ -1,10 +1,10 @@
 # api/main.py
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 import sys, os
+from hashlib import sha256
 
 # Add project root to path to import src
 sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/..")
@@ -13,7 +13,6 @@ from src.logic import ProfileService, TransactionService, BudgetService
 # ------------------- App Setup -------------------
 app = FastAPI(title="Expense Tracker API", version="1.0")
 
-# Allow frontend (Streamlit/React) to call API
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins
@@ -30,6 +29,12 @@ budget_service = BudgetService()
 # ------------------- Data Models -------------------
 class ProfileCreate(BaseModel):
     username: str
+    email: Optional[str] = None
+    password: Optional[str] = None
+
+class ProfileLogin(BaseModel):
+    username: str
+    password: str
 
 class ProfileUpdate(BaseModel):
     username: str
@@ -37,14 +42,14 @@ class ProfileUpdate(BaseModel):
 class TransactionCreate(BaseModel):
     user_id: int
     category: str
-    type: str                # ✅ updated to match DB
+    type_: str
     date: str
     amount: float
     description: Optional[str] = None
 
 class TransactionUpdate(BaseModel):
     category: Optional[str] = None
-    type: Optional[str] = None   # ✅ updated
+    type_: Optional[str] = None
     date: Optional[str] = None
     amount: Optional[float] = None
     description: Optional[str] = None
@@ -55,6 +60,35 @@ class BudgetCreate(BaseModel):
 
 class BudgetUpdate(BaseModel):
     budget: float
+
+# ------------------- Authentication Endpoints -------------------
+@app.post("/register")
+def register(profile: ProfileCreate):
+    if not profile.username or not profile.email or not profile.password:
+        return {"Success": False, "Message": "All fields are required"}
+
+    # Hash password before storing
+    hashed_pw = sha256(profile.password.encode()).hexdigest()
+    try:
+        result = profile_service.add_profile_with_credentials(profile.username, profile.email, hashed_pw)
+        return result
+    except Exception as e:
+        return {"Success": False, "Message": f"Error: {str(e)}"}
+
+@app.post("/login")
+def login(profile: ProfileLogin):
+    if not profile.username or not profile.password:
+        return {"Success": False, "Message": "Username and password required"}
+
+    hashed_pw = sha256(profile.password.encode()).hexdigest()
+    try:
+        user = profile_service.login(profile.username, hashed_pw)
+        if user:
+            return {"Success": True, "Data": user}
+        else:
+            return {"Success": False, "Message": "Invalid credentials or user not registered"}
+    except Exception as e:
+        return {"Success": False, "Message": f"Error: {str(e)}"}
 
 # ------------------- Profile Endpoints -------------------
 @app.post("/profiles")
@@ -83,7 +117,7 @@ def add_transaction(transaction: TransactionCreate):
     return transaction_service.add_transaction(
         transaction.user_id,
         transaction.category,
-        transaction.type,          # ✅ fixed
+        transaction.type_,
         transaction.date,
         transaction.amount,
         transaction.description,
