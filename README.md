@@ -1,15 +1,15 @@
 # 💰 Full-Stack Expense Tracker
 
-A user-friendly full-stack web application to manage personal finances. Users can track income and expenses, categorize transactions, and visualize spending trends using charts. This project demonstrates a complete full-stack application using Python, FastAPI, Supabase, and Streamlit.
+A user-friendly full-stack web application to manage personal finances. Users can track income and expenses, categorize transactions, and visualize spending trends using interactive charts. This project demonstrates a complete full-stack application using Python, FastAPI, Supabase, and Streamlit.
 
 ## 🌟 Features
 
-- **💵 Transaction Management**: Add, view, update, and delete income and expenses.
+- **💵 Transaction Management**: Add, view, and manage income and expenses.
 - **📊 Dashboard & Charts**: Visualize monthly spending and category-wise expenses.
 - **🔖 Categories**: Organize transactions by category (Food, Travel, Bills, etc.).
 - **🗓️ Date Tracking**: Record transaction dates for accurate monthly reports.
-- **🔐 User Authentication**: Secure signup and login using Supabase Auth.
-- **📈 Expense Reports**: Analyze spending trends over time.
+- **🔐 User Authentication**: Secure signup and login with session management.
+- **📈 Budget Tracking**: Set and monitor budgets for each user.
 - **💻 Responsive Design**: Clean, modern interface for desktop and mobile.
 
 ## Project Structure
@@ -67,7 +67,9 @@ pip install -r requirements.txt
 CREATE TABLE Profiles (
     id SERIAL PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email TEXT UNIQUE,
+    password_hash TEXT;
 );
 ```
 ``` sql
@@ -116,18 +118,17 @@ streamlit run frontend/app.py
 The app will open in your browser at `http://localhost:8501`
 
 ## How to Use
+1. Login / Register using the sidebar.
 
-1. Add a profile.
+2. Add a profile.
 
-2. Add transactions (Income or Expense) with category, date, amount, and description.
+3. Add transactions (Income or Expense) with category, date, amount, and description.
 
-3. View all transactions in a sortable/filterable table.
+4. View all transactions in a sortable/filterable table.
 
-4. Set a monthly budget.
+5. Set a monthly budget.
 
-5. Open Dashboard → View monthly spending trends and category-wise charts.
-
-6. Export data as CSV/PDF (if implemented).
+6. Open Dashboard → View monthly spending trends and category-wise charts.
 
 ## 🛠Technical Details
 
@@ -143,6 +144,10 @@ The app will open in your browser at `http://localhost:8501`
 1. **`src/db.py`**: Database operations - Handles all CRUD operations with Supabase
 
 2. **`src/logic.py`**: Business logic - Task validation and processing
+
+3. **`frontend/app.py`**: Streamlit frontend with dashboard and charts
+
+4. **`api/main.py`**: FastAPI endpoints for authentication, transactions, profiles, and budgets
 
 ## ⚠️Troubleshooting
 
